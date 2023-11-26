@@ -1,26 +1,30 @@
-import geoCode, { Location } from './geoCode';
-
-async function main(): Promise<0 | 1> {
-	if (process.argv.length !== 3) {
-		console.error('inCorrect syntax');
-
-		return 1;
-	} else {
-		const query = process.argv[2];
-		let location: Location;
-
-		try {
-			location = await geoCode(query);
-		} catch (error) {
-			console.error(error);
-
-			return 1;
-		};
-
-		console.log(location);
-
-		return 0;
-	};
+const weatherCodes: Record<number, string> = {
+	0: 'clear sky',
+	1: 'mainly clear',
+	2: 'partly cloudy',
+	3: 'overCast',
+	45: 'fog',
+	48: 'depositing rime-fog',
+	51: 'light drizzle',
+	53: 'moderate drizzle',
+	55: 'dense drizzle',
+	56: 'light freezing-drizzle',
+	57: 'dense freezing-drizzle',
+	61: 'light rain',
+	63: 'moderate rain',
+	65: 'heavy rain',
+	66: 'light freezing-rain',
+	67: 'heavy freezing-rain',
+	71: 'slight snow-fall',
+	73: 'moderate snow-fall',
+	75: 'heavy snow-fall',
+	77: 'snow-grains',
+	80: 'slight rain-showers',
+	81: 'moderate rain-showers',
+	82: 'violent rain-showers',
+	85: 'slight snow-showers',
+	86: 'heavy snow-showers',
+	95: 'moderate thunderStorm',
+	96: 'thunderStorm with slight hail',
+	99: 'thunderStorm with heavy hail'
 };
-
-main().catch(console.error);

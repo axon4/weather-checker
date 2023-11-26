@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export interface Location {
 	name: string;
-	latitude: string;
-	longitude: string;
+	latitude: number;
+	longitude: number;
 };
 
 interface GeoCodeResponse {
@@ -27,8 +27,8 @@ async function geoCode(query: string): Promise<Location> {
 
 			return {
 				name: display_name,
-				latitude: lat,
-				longitude: lon
+				latitude: parseInt(lat),
+				longitude: parseInt(lon)
 			};
 		} else throw new Error(`failed to fetch geoCoded-location for: ${query}`);
 	} else throw new Error('failed to query geoCode-API');

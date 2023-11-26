@@ -1,4 +1,5 @@
 import geoCode, { Location } from './geoCode';
+import weather from './weather';
 
 async function main(): Promise<0 | 1> {
 	if (process.argv.length !== 3) {
@@ -17,7 +18,17 @@ async function main(): Promise<0 | 1> {
 			return 1;
 		};
 
-		console.log(location);
+		console.log(`fetching weather-foreCast for: ${location.name}...\n`);
+
+		try {
+			const foreCast = await weather(location.latitude, location.longitude);
+
+			console.log(foreCast.forMat());
+		} catch (error) {
+			console.error(error);
+
+			return 1;
+		};
 
 		return 0;
 	};

@@ -1,34 +1,34 @@
 import axios from 'axios';
 
 const weatherCodes: Record<number, string> = {
-	0: 'clear sky',
-	1: 'mainly clear',
-	2: 'partly cloudy',
-	3: 'overCast',
-	45: 'fog',
-	48: 'depositing rime-fog',
-	51: 'light drizzle',
-	53: 'moderate drizzle',
-	55: 'dense drizzle',
-	56: 'light freezing-drizzle',
-	57: 'dense freezing-drizzle',
-	61: 'light rain',
-	63: 'moderate rain',
-	65: 'heavy rain',
-	66: 'light freezing-rain',
-	67: 'heavy freezing-rain',
-	71: 'slight snow-fall',
-	73: 'moderate snow-fall',
-	75: 'heavy snow-fall',
-	77: 'snow-grains',
-	80: 'slight rain-showers',
-	81: 'moderate rain-showers',
-	82: 'violent rain-showers',
-	85: 'slight snow-showers',
-	86: 'heavy snow-showers',
-	95: 'moderate thunderStorm',
-	96: 'thunderStorm with slight hail',
-	99: 'thunderStorm with heavy hail'
+	0: 'Clear Sky',
+	1: 'Mainly Clear',
+	2: 'Partly Cloudy',
+	3: 'OverCast',
+	45: 'Fog',
+	48: 'Depositing Rime-Fog',
+	51: 'Light Drizzle',
+	53: 'Moderate Drizzle',
+	55: 'Dense Drizzle',
+	56: 'Light Freezing-Drizzle',
+	57: 'Dense Freezing-Drizzle',
+	61: 'Light Rain',
+	63: 'Moderate Rain',
+	65: 'Heavy Rain',
+	66: 'Light Freezing-Rain',
+	67: 'Heavy Freezing-Rain',
+	71: 'Slight Snow-Fall',
+	73: 'Moderate Snow-Fall',
+	75: 'Heavy Snow-Fall',
+	77: 'Snow-Grains',
+	80: 'Slight Rain-Showers',
+	81: 'Moderate Rain-Showers',
+	82: 'Violent Rain-Showers',
+	85: 'Slight Snow-Showers',
+	86: 'Heavy Snow-Showers',
+	95: 'Moderate ThunderStorm',
+	96: 'ThunderStorm with Slight Hail',
+	99: 'ThunderStorm with Heavy Hail'
 };
 
 interface WeatherResponse {
@@ -88,9 +88,9 @@ class Weather {
 	forMat() {
 		const descriptionLength = 16;
 
-		const temperature = 'Temperature'.padStart(descriptionLength, ' ');
-		const windSpeed = 'Wind-Speed'.padStart(descriptionLength, ' ');
-		const condition = 'Condition'.padStart(descriptionLength, ' ');
+		const temperature = 'Temperature'.padStart(descriptionLength, '');
+		const windSpeed = 'Wind-Speed'.padStart(descriptionLength, '');
+		const condition = 'Condition'.padStart(descriptionLength, '');
 
 		const forMattedStrings = [
 			`${temperature}: ${forMatTemperature(this.temperature)}`,

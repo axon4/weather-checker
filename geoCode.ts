@@ -30,7 +30,7 @@ async function geoCode(query: string): Promise<Location> {
 				latitude: lat,
 				longitude: lon
 			};
-		} else throw new Error(`failed to fetch geoCoded-location for ${query}`);
+		} else throw new Error(`failed to fetch geoCoded-location for: ${query}`);
 	} else throw new Error('failed to query geoCode-API');
 };
 

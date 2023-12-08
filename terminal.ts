@@ -2,7 +2,7 @@ import axios from 'axios';
 import geoCode, { Location } from './geoCode';
 import weather from './weather';
 
-async function main(): Promise<0 | 1> {
+(async function (): Promise<0 | 1> {
 	if (process.argv.length !== 3) {
 		console.error('inCorrect syntax');
 
@@ -33,6 +33,4 @@ async function main(): Promise<0 | 1> {
 
 		return 0;
 	};
-};
-
-main().catch(console.error);
+})().catch(console.error);

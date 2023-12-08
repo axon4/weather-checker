@@ -2,7 +2,7 @@
 	"name": "weather-checker",
 	"version": "0.0.1",
 	"scripts": {
-		"weather": "ts-node script.ts",
+		"weather": "ts-node terminal.ts",
 		"start": "concurrently \"pnpm start:server\" \"pnpm start:client\" \"pnpm start:tailWind\" \"pnpm start:reLoad\"",
 		"start:server": "nodemon -w ./src -e njk,css,ts --exec ts-node server.ts",
 		"start:client": "nodemon -w ./src -e ts --exec node build.js",

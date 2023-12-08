@@ -1,3 +1,4 @@
+import axios from 'axios';
 import geoCode, { Location } from './geoCode';
 import weather from './weather';
 
@@ -11,7 +12,7 @@ async function main(): Promise<0 | 1> {
 		let location: Location;
 
 		try {
-			location = await geoCode(query);
+			location = await geoCode(axios, query);
 		} catch (error) {
 			console.error(error);
 
@@ -21,7 +22,7 @@ async function main(): Promise<0 | 1> {
 		console.log(`fetching weather-foreCast for: ${location.name}...\n`);
 
 		try {
-			const foreCast = await weather(location.latitude, location.longitude);
+			const foreCast = await weather(axios, location.latitude, location.longitude);
 
 			console.log(foreCast.forMat());
 		} catch (error) {

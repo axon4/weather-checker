@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { z } from 'zod';
+import { AxiosStatic } from 'axios';
 
 const weatherCodes: Record<number, string> = {
 	0: 'Clear Sky',
@@ -31,14 +32,24 @@ const weatherCodes: Record<number, string> = {
 	99: 'ThunderStorm with Heavy Hail'
 };
 
-interface WeatherResponse {
-	time: string;
-	is_day: number;
-	temperature: string;
-	weathercode: number;
-	windspeed: number;
-	winddirection: number;
-};
+const WeatherResponseSchema = z.object({
+	current_weather: z.object({
+		time: z.string(),
+		is_day: z.number(),
+		temperature: z.number(),
+		weathercode: z.number(),
+		windspeed: z.number(),
+		winddirection: z.number()
+	}),
+	hourly: z.object({
+		temperature_2m: z.array(z.number())
+	}),
+	hourly_units: z.object({
+		temperature_2m: z.string()
+	})
+});
+
+type WeatherResponse = z.infer<typeof WeatherResponseSchema>;
 
 export interface Temperature {
 	value: number;
@@ -61,16 +72,17 @@ function forMatWindSpeed(wind: Wind): string {
 
 class Weather {
 	constructor(weatherResponse: WeatherResponse) {
-		this.time = weatherResponse.time;
-		this.dayLight = weatherResponse.is_day === 1;
+		this.time = weatherResponse.current_weather.time;
+		this.dayLight = weatherResponse.current_weather.is_day === 1;
 		this.temperature = {
-			value: parseInt(weatherResponse.temperature),
-			unit: 'C'
+			value: weatherResponse.current_weather.temperature,
+			unit: weatherResponse.hourly_units.temperature_2m
 		};
-		this.weathercode = weatherResponse.weathercode;
+		this.hourlyTemperature = weatherResponse.hourly.temperature_2m;
+		this.weathercode = weatherResponse.current_weather.weathercode;
 		this.wind = {
-			speed: weatherResponse.windspeed,
-			direction: weatherResponse.winddirection,
+			speed: weatherResponse.current_weather.windspeed,
+			direction: weatherResponse.current_weather.winddirection,
 			unit: 'mph'
 		};
 	};
@@ -78,6 +90,7 @@ class Weather {
 	time: string;
 	dayLight: boolean;
 	temperature: Temperature;
+	hourlyTemperature: number[];
 	weathercode: number;
 	wind: Wind;
 
@@ -91,19 +104,29 @@ class Weather {
 		const temperature = 'Temperature'.padStart(descriptionLength, '');
 		const windSpeed = 'Wind-Speed'.padStart(descriptionLength, '');
 		const condition = 'Condition'.padStart(descriptionLength, '');
+		const dateTime = 'DateTime'.padStart(descriptionLength, '');
 
 		const forMattedStrings = [
 			`${temperature}: ${forMatTemperature(this.temperature)}`,
 			`${windSpeed}: ${forMatWindSpeed(this.wind)}`,
 			`${condition}: ${this.condition}`,
+			`${dateTime}: ${(this.time.replace('T', ' ').replace(/-/g, '/'))}`
 		];
 
 		return forMattedStrings.join('\n');
 	};
+
+	lowestTemperature(): number {
+		return this.hourlyTemperature.reduce((accumulator, current) => Math.min(accumulator, current));
+	};
+
+	highestTemperature(): number {
+		return this.hourlyTemperature.reduce((accumulator, current) => Math.max(accumulator, current));
+	};
 };
 
-async function weather(latitude: number, longitude: number): Promise<Weather> {
-	const response = await axios.request({
+async function weather(fetcher: AxiosStatic, latitude: number, longitude: number): Promise<Weather> {
+	const response = await fetcher.request({
 		method: 'GET',
 		url: 'https://api.open-meteo.com/v1/forecast',
 		params: {
@@ -112,13 +135,19 @@ async function weather(latitude: number, longitude: number): Promise<Weather> {
 			current_weather: true,
 			temperature_unit: 'celsius',
 			windspeed_unit: 'mph',
-			hourly: 'temperature_2m'
+			hourly: 'temperature_2m',
+			forecast_days: 1
 		}
 	});
 
 	if (response.status === 200) {
-		if (response.data?.current_weather) return new Weather(response.data.current_weather as WeatherResponse);
-		else throw new Error(`failed to fetch weather for: ${latitude}, ${longitude}`);
+		try {
+			const data = WeatherResponseSchema.parse(response.data);
+
+			return new Weather(data);
+		} catch (error) {
+			throw new Error(`failed to fetch weather for: ${latitude}, ${longitude}`);
+		};
 	} else throw new Error('failed to query weather-API');
 };
 

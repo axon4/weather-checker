@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { z } from 'zod';
+import { AxiosStatic } from 'axios';
 
 export interface Location {
 	name: string;
@@ -6,14 +7,16 @@ export interface Location {
 	longitude: number;
 };
 
-interface GeoCodeResponse {
-	display_name: string;
-	lat: string;
-	lon: string;
-};
+const GeoCodeResponseSchema = z.object({
+	display_name: z.string(),
+	lat: z.string(),
+	lon: z.string()
+});
 
-async function geoCode(query: string): Promise<Location> {
-	const response = await axios.request<GeoCodeResponse[]>({
+type GeoCodeResponse = z.infer<typeof GeoCodeResponseSchema>;
+
+async function geoCode(fetcher: AxiosStatic, query: string): Promise<Location> {
+	const response = await fetcher.request({
 		method: 'GET',
 		url: 'https://geocode.maps.co/search',
 		params: {
@@ -22,15 +25,17 @@ async function geoCode(query: string): Promise<Location> {
 	});
 
 	if (response.status === 200) {
-		if (response.data.length > 0) {
-			const { display_name, lat, lon } = response.data[0];
+		try {
+			const { display_name, lat, lon } = GeoCodeResponseSchema.parse(response.data[0]);
 
 			return {
 				name: display_name,
 				latitude: parseInt(lat),
 				longitude: parseInt(lon)
 			};
-		} else throw new Error(`failed to fetch geoCoded-location for: ${query}`);
+		} catch (error) {
+			throw new Error(`failed to fetch geoCoded-location for: ${query}`);
+		};
 	} else throw new Error('failed to query geoCode-API');
 };
 

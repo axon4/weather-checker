@@ -1,4 +1,4 @@
-{% extends 'main.njk' %}
+{% extends 'index.njk' %}
 
 {% block title %}Weather-Checker{% endblock %}
 {% block content %}
@@ -16,15 +16,15 @@
 				<p class='dark:text-gray-300 text-center'>{{ weather.condition }}</p>
 			</div>
 			<div class='mb-2 text-3xl flex flex-row gap-2 justify-between'>
-				<div class='font-semibold text-orange-600 dark:text-yellow-500'>{{ weather.highestTemperature }}{{ weather.temperature.unit }}</div>
-				<div>/</div>
 				<div class='font-semibold text-blue-800 dark:text-sky-300'>{{ weather.lowestTemperature }}{{ weather.temperature.unit }}</div>
+				<div>/</div>
+				<div class='font-semibold text-orange-600 dark:text-yellow-500'>{{ weather.highestTemperature }}{{ weather.temperature.unit }}</div>
 			</div>
 			<form method='GET' action='/' class='flex flex-col items-center gap-2'>
 				<div>
-					<input type='text' name='location' placeholder='location' class='h-10  border rounded p-2 text-center border-gray-400 text-gray-900 dark:border-gray-600 dark:text-gray-300 dark:bg-gray-800' />
+					<input type='text' name='query' placeholder='Location' class='h-10  border rounded p-2 text-center border-gray-400 text-gray-900 dark:border-gray-600 dark:text-gray-300 dark:bg-gray-800' />
 				</div>
-				<input type='submit' class='cursor-pointer w-full h-10 font-semibold border rounded bg-gray-300 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300' value='upDate location' />
+				<input type='submit' value='UpDate Location' class='cursor-pointer w-full h-10 font-semibold border rounded bg-gray-300 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300' />
 			</form>
 		</div>
 	</div>

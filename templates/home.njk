@@ -1,4 +1,4 @@
-{% extends 'main.njk' %}
+{% extends 'index.njk' %}
 
 {% block title %}Weather-Checker{% endblock %}
 {% block content %}
@@ -8,13 +8,13 @@
 				<p class='w-full text-sm dark:bg-red-700 bg-red-400 dark:text-gray-100 mt-2 p-2 rounded text-center'>{{ serverMessage }}</p>
 			{% endif %}
 			<div class='text-center'>
-				<h2 class='text-xl font-semibold border-bottom'>Enter a Location to Get Started</h2>
+				<h2 class='text-xl font-semibold border-bottom'>Weather-Checker</h2>
 			</div>
 			<form method='GET' action='/' class='flex flex-col items-center gap-2'>
 				<div>
-					<input type='text' name='location' placeholder='Location' class='h-10  border rounded p-2 text-center border-gray-400 text-gray-900 dark:border-gray-600 dark:text-gray-300 dark:bg-gray-800' />
+					<input type='text' name='query' placeholder='Location' class='h-10  border rounded p-2 text-center border-gray-400 text-gray-900 dark:border-gray-600 dark:text-gray-300 dark:bg-gray-800' />
 				</div>
-				<input type='submit' class='w-full h-10 font-semibold border rounded bg-gray-300 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300' value='Set Location' />
+				<input type='submit' value='ForeCast' class='w-full h-10 font-semibold border rounded bg-gray-300 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300' />
 			</form>
 		</div>
 	</div>

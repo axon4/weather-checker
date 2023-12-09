@@ -94,7 +94,7 @@ server.get('/', async (request, response) => {
 		const rendered = templates.render('weather.njk', {
 			environment,
 			location: location.name,
-			currentDateTime: (new Date()).toLocaleDateString(),
+			currentDateTime: foreCast.time.replace('T', ' ').replace(/-/g, '/'),
 			weather: {
 				...foreCast,
 				condition: foreCast.condition,

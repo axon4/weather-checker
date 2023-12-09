@@ -32,7 +32,7 @@ const weatherCodes: Record<number, string> = {
 	99: 'ThunderStorm with Heavy Hail'
 };
 
-const WeatherResponseSchema = z.object({
+export const WeatherResponseSchema = z.object({
 	current_weather: z.object({
 		time: z.string(),
 		is_day: z.number(),
@@ -70,7 +70,7 @@ function forMatWindSpeed(wind: Wind): string {
 	return `${wind.speed}${wind.unit}`;
 };
 
-class Weather {
+export class Weather {
 	constructor(weatherResponse: WeatherResponse) {
 		this.time = weatherResponse.current_weather.time;
 		this.dayLight = weatherResponse.current_weather.is_day === 1;
@@ -125,10 +125,12 @@ class Weather {
 	};
 };
 
+export const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast';
+
 async function weather(fetcher: AxiosStatic, latitude: number, longitude: number): Promise<Weather> {
 	const response = await fetcher.request({
 		method: 'GET',
-		url: 'https://api.open-meteo.com/v1/forecast',
+		url: WEATHER_URL,
 		params: {
 			latitude,
 			longitude,

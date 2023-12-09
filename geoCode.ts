@@ -13,12 +13,12 @@ const GeoCodeResponseSchema = z.object({
 	lon: z.string()
 });
 
-type GeoCodeResponse = z.infer<typeof GeoCodeResponseSchema>;
+export const GEOCODE_URL = 'https://geocode.maps.co/search';
 
 async function geoCode(fetcher: AxiosStatic, query: string): Promise<Location> {
 	const response = await fetcher.request({
 		method: 'GET',
-		url: 'https://geocode.maps.co/search',
+		url: GEOCODE_URL,
 		params: {
 			q: query
 		}

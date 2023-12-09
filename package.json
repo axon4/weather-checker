@@ -7,7 +7,8 @@
 		"start:server": "nodemon -w ./ -e njk,css,ts --exec ts-node server.ts",
 		"start:client": "nodemon -w ./ -e ts --exec node build.js",
 		"start:tailWind": "tailwindcss -w -i templates/style.css -o dist/style.css",
-		"start:reLoad": "pnpm livereload -w 2500 -e html,njk,css,ts"
+		"start:reLoad": "pnpm livereload -w 2500 -e html,njk,css,ts",
+		"test": "jest"
 	},
 	"dependencies": {
 		"@fastify/formbody": "^7.4.0",

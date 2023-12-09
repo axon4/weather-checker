@@ -50,4 +50,5 @@ function copyFiles(pattern: string, destination: string): void {
 };
 
 copyFiles('./favicon.ico', './build/');
+copyFiles('./templates/*.njk', './build/templates/');
 copyFiles('./images/*.svg', './build/images/');

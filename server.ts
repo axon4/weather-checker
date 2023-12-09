@@ -13,7 +13,7 @@ dotEnv.config();
 
 const environment = process.env.NODE_ENV;
 const server = fastify({logger: true});
-const templates = new nunJucks.Environment(new nunJucks.FileSystemLoader('templates'));
+const templates = new nunJucks.Environment(new nunJucks.FileSystemLoader(path.join(__dirname, 'templates')));
 
 server.register(formBody);
 server.register(staticFiles, {root: path.join(__dirname, environment === 'development' ? './dist' : './')});

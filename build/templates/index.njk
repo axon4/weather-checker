@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% include 'head.njk' %}
+		{% block head %}{% endblock %}
+		<title>
+			{% block title %}Weather-Checker{% endblock %}
+		</title>
+	</head>
+	<body class='dark:bg-gray-800'>
+		{% block content %}{% endblock %}
+		{% include 'liveReLoad.njk' %}
+	</body>
+</html>

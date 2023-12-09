@@ -32,4 +32,5 @@ function copyFiles(pattern, destination) {
 
 fs.mkdirSync('./dist', {recursive: true});
 
+copyFiles('favicon.ico', 'dist/');
 copyFiles('images/*.svg', 'dist/images/');

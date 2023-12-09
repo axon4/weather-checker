@@ -16,7 +16,7 @@ const server = fastify({logger: true});
 const templates = new nunJucks.Environment(new nunJucks.FileSystemLoader('templates'));
 
 server.register(formBody);
-server.register(staticFiles, {root: path.join(__dirname, '../../dist')});
+server.register(staticFiles, {root: path.join(__dirname, './dist')});
 
 const locationSchema = z.object({
 	query: z.string()
@@ -99,7 +99,7 @@ server.get('/', async (request, response) => {
 				...foreCast,
 				condition: foreCast.condition,
 				conditionImage: getWeatherCodeImage(foreCast.weathercode),
-				lowTemperature: foreCast.lowestTemperature,
+				lowestTemperature: foreCast.lowestTemperature,
 				highestTemperature: foreCast.highestTemperature
 			}
 		});
@@ -114,11 +114,8 @@ server.get('/', async (request, response) => {
 	};
 });
 
-(async function (): Promise<void> {
-	try {
-		await server.listen({port: 3000});
-	} catch (error) {
+server.listen({port: 3000})
+	.catch(error => {
 		server.log.error(error);
 		process.exit(1);
-	};
-})();
+	});

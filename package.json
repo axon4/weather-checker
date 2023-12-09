@@ -4,8 +4,8 @@
 	"scripts": {
 		"weather": "ts-node terminal.ts",
 		"start": "concurrently \"pnpm start:server\" \"pnpm start:client\" \"pnpm start:tailWind\" \"pnpm start:reLoad\"",
-		"start:server": "nodemon -w ./src -e njk,css,ts --exec ts-node server.ts",
-		"start:client": "nodemon -w ./src -e ts --exec node build.js",
+		"start:server": "nodemon -w ./ -e njk,css,ts --exec ts-node server.ts",
+		"start:client": "nodemon -w ./ -e ts --exec node build.js",
 		"start:tailWind": "tailwindcss -w -i templates/style.css -o dist/style.css",
 		"start:reLoad": "pnpm livereload -w 2500 -e html,njk,css,ts"
 	},

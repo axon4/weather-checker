@@ -116,11 +116,11 @@ class Weather {
 		return forMattedStrings.join('\n');
 	};
 
-	lowestTemperature(): number {
+	get lowestTemperature(): number {
 		return this.hourlyTemperature.reduce((accumulator, current) => Math.min(accumulator, current));
 	};
 
-	highestTemperature(): number {
+	get highestTemperature(): number {
 		return this.hourlyTemperature.reduce((accumulator, current) => Math.max(accumulator, current));
 	};
 };

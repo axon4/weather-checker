@@ -16,7 +16,7 @@ const server = fastify({logger: true});
 const templates = new nunJucks.Environment(new nunJucks.FileSystemLoader('templates'));
 
 server.register(formBody);
-server.register(staticFiles, {root: path.join(__dirname, './dist')});
+server.register(staticFiles, {root: path.join(__dirname, environment === 'development' ? './dist' : './')});
 
 const locationSchema = z.object({
 	query: z.string()

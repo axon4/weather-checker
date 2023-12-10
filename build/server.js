@@ -52,9 +52,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var dotenv_1 = __importDefault(require("dotenv"));
-var fastify_1 = require("fastify");
-var formbody_1 = __importDefault(require("@fastify/formbody"));
+var fastify_1 = __importDefault(require("fastify"));
 var static_1 = __importDefault(require("@fastify/static"));
+var formbody_1 = __importDefault(require("@fastify/formbody"));
 var axios_1 = __importDefault(require("axios"));
 var zod_1 = require("zod");
 var nunjucks_1 = __importDefault(require("nunjucks"));
@@ -62,10 +62,10 @@ var geoCode_1 = __importDefault(require("./geoCode"));
 var weather_1 = __importDefault(require("./weather"));
 dotenv_1.default.config();
 var environment = process.env.NODE_ENV;
-var server = (0, fastify_1.fastify)({ logger: true });
+var server = (0, fastify_1.default)({ logger: true });
 var templates = new nunjucks_1.default.Environment(new nunjucks_1.default.FileSystemLoader(path_1.default.join(__dirname, 'templates')));
-server.register(formbody_1.default);
 server.register(static_1.default, { root: path_1.default.join(__dirname, environment === 'development' ? './dist' : './') });
+server.register(formbody_1.default);
 var locationSchema = zod_1.z.object({
     query: zod_1.z.string()
 });

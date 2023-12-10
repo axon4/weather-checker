@@ -1,8 +1,8 @@
 import path from 'path';
 import dotEnv from 'dotenv';
-import { fastify } from 'fastify';
-import formBody from '@fastify/formbody';
+import fastify from 'fastify';
 import staticFiles from '@fastify/static';
+import formBody from '@fastify/formbody';
 import axios from 'axios';
 import { z } from 'zod';
 import nunJucks from 'nunjucks';
@@ -15,8 +15,8 @@ const environment = process.env.NODE_ENV;
 const server = fastify({logger: true});
 const templates = new nunJucks.Environment(new nunJucks.FileSystemLoader(path.join(__dirname, 'templates')));
 
-server.register(formBody);
 server.register(staticFiles, {root: path.join(__dirname, environment === 'development' ? './dist' : './')});
+server.register(formBody);
 
 const locationSchema = z.object({
 	query: z.string()
